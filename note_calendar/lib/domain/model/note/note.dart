@@ -7,10 +7,10 @@ part 'note.g.dart';
 @freezed
 class Note with _$Note {
   factory Note({
-    String? title,
+    int? id,
+    required String title,
     required String content,
-    required int id,
-    required int addTime,
+    int? addTime,
     required int editTime,
     required int color,
     required int fontSize,
