@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.note_calendar">
+    package="com.example.note_calculator">
    <application
-        android:label="NoteCalendar"
+        android:label="노트와계산기"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

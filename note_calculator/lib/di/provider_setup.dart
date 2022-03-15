@@ -17,7 +17,7 @@ Future<List<SingleChildWidget>> getProviders() async {
   Database db =
       await openDatabase('notes_db', version: 1, onCreate: (db, version) async {
     await db.execute(
-        'CREATE TABLE note (id TNTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, color INTEGER, fontSize INTEGER, addTime INTEGER,editTime INTEGER)');
+        'CREATE TABLE note (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, color INTEGER, fontSize INTEGER, addTime INTEGER,editTime INTEGER)');
   });
 
   NoteDataSource noteDataSource = NoteDataSource(db);
