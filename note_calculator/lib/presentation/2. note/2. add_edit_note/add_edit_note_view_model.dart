@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_calendar/domain/model/note/note.dart';
 import 'package:note_calendar/domain/use_case/note_use_case/note_use_cases.dart';
-import 'package:note_calendar/presentation/note/2.%20add_edit_note/event/add_edit_note_event.dart';
-import 'package:note_calendar/presentation/note/2.%20add_edit_note/state/add_edit_note_state.dart';
+import 'package:note_calendar/presentation/2.%20note/2.%20add_edit_note/event/add_edit_note_event.dart';
+import 'package:note_calendar/presentation/2.%20note/2.%20add_edit_note/state/add_edit_note_state.dart';
 
 class AddEditNoteViewModel with ChangeNotifier {
   final NoteUseCases useCases;
