@@ -5,7 +5,12 @@ part 'add_edit_note_event.freezed.dart';
 @freezed
 abstract class AddEditNoteEvent with _$AddEditNoteEvent {
   const factory AddEditNoteEvent.saveNote(
-      int? id, String title, String content) = SaveNote;
+    int? id,
+    String? title,
+    String content,
+    int color,
+    int fontSize,
+  ) = SaveNote;
   const factory AddEditNoteEvent.changeColor(int color) = ChangeColor;
   const factory AddEditNoteEvent.changeFontSize(int fontSize) = ChangeFontSize;
 }
