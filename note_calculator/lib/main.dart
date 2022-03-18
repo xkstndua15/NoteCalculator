@@ -27,17 +27,24 @@ class MyApp extends StatelessWidget {
         canvasColor: background,
         floatingActionButtonTheme: Theme.of(context)
             .floatingActionButtonTheme
-            .copyWith(backgroundColor: text, foregroundColor: background),
+            .copyWith(backgroundColor: textWhite, foregroundColor: background),
         appBarTheme:
             Theme.of(context).appBarTheme.copyWith(backgroundColor: background),
-        textTheme: Theme.of(context).textTheme.apply(bodyColor: text),
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: textWhite),
         bottomNavigationBarTheme:
             Theme.of(context).bottomNavigationBarTheme.copyWith(
                   backgroundColor: bottomNavBar,
                   showSelectedLabels: true,
-                  unselectedItemColor: text,
+                  unselectedItemColor: textWhite,
                   selectedItemColor: amber,
                 ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.grey[800],
+            shape: const CircleBorder(),
+            elevation: 0,
+          ),
+        ),
       ),
       home: const MainView(),
     );
