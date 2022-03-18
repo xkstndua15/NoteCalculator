@@ -3,13 +3,15 @@ import 'package:note_calendar/domain/model/note/note.dart';
 import 'package:note_calendar/domain/use_case/note_use_case/note_use_cases.dart';
 import 'package:note_calendar/presentation/2.%20note/2.%20add_edit_note/event/add_edit_note_event.dart';
 import 'package:note_calendar/presentation/2.%20note/2.%20add_edit_note/state/add_edit_note_state.dart';
+import 'package:note_calendar/ui/color.dart';
 
 class AddEditNoteViewModel with ChangeNotifier {
   final NoteUseCases useCases;
 
   AddEditNoteViewModel(this.useCases);
 
-  AddEditNoteState _state = AddEditNoteState(color: 0, fontSize: 12);
+  AddEditNoteState _state =
+      AddEditNoteState(color: red.value, fontSize: 14, editMode: false);
 
   AddEditNoteState get state => _state;
 
@@ -21,52 +23,57 @@ class AddEditNoteViewModel with ChangeNotifier {
     );
   }
 
-  Future<void> _saveNote(int? id, String title, String content) async {
-    if (title.isEmpty && content.isEmpty) {
+  Future<void> _saveNote(
+      int? id, String? title, String content, int color, int fontSize) async {
+    if ((title == null || title.isEmpty) && content.isEmpty) {
       return;
     }
 
-    if (id == null) {
-      if (title.isEmpty) {
-        _state =
-            state.copyWith(title: content.substring(0, content.length % 10));
-      } else {
-        _state = state.copyWith(title: title);
-        _state = state.copyWith(content: content);
-      }
+    if (title == null || title.isEmpty) {
+      String nullTitle;
 
+      if (content.length < 10) {
+        nullTitle = content.substring(0, content.length);
+      } else {
+        nullTitle = content.substring(0, 9);
+      }
+      _state = state.copyWith(title: nullTitle);
+    } else {
+      _state = state.copyWith(title: title);
+    }
+
+    if (id == null) {
       await useCases.addNoteUseCase(Note(
           title: _state.title!,
-          content: _state.content!,
-          color: _state.color,
-          fontSize: _state.fontSize,
+          content: content,
+          color: color,
+          fontSize: fontSize,
           addTime: DateTime.now().millisecondsSinceEpoch,
           editTime: DateTime.now().millisecondsSinceEpoch));
     } else {
-      if (title.isEmpty) {
-        _state =
-            state.copyWith(title: content.substring(0, content.length % 10));
-      } else {
-        _state = state.copyWith(title: title);
-        _state = state.copyWith(content: content);
-      }
-
       await useCases.updateNoteUseCase(Note(
         id: id,
         title: _state.title!,
-        content: _state.content!,
-        color: _state.color,
-        fontSize: _state.fontSize,
+        content: content,
+        color: color,
+        fontSize: fontSize,
         editTime: DateTime.now().millisecondsSinceEpoch,
       ));
     }
   }
 
-  Future<void> _changeColor(int color) async {
+  void _changeColor(int color) {
     _state = state.copyWith(color: color);
+    notifyListeners();
   }
 
-  Future<void> _changeFontSize(int fontSize) async {
+  void _changeFontSize(int fontSize) {
     _state = state.copyWith(fontSize: fontSize);
+    notifyListeners();
+  }
+
+  void changeEditMode() {
+    _state = state.copyWith(editMode: !_state.editMode);
+    notifyListeners();
   }
 }

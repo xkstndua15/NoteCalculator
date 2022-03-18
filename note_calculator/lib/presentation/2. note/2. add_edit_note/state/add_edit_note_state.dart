@@ -7,6 +7,7 @@ class AddEditNoteState with _$AddEditNoteState {
   factory AddEditNoteState({
     String? title,
     String? content,
+    required bool editMode,
     required int color,
     required int fontSize,
   }) = _AddEditNoteState;

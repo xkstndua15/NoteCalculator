@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:note_calendar/presentation/1.%20main/component/main_app_bar.dart';
 import 'package:note_calendar/presentation/1.%20main/component/main_body_list.dart';
 import 'package:note_calendar/presentation/1.%20main/main_view_model.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +11,6 @@ class MainView extends StatelessWidget {
     final viewModel = context.watch<MainViewModel>();
     final state = viewModel.state;
     return Scaffold(
-      appBar: mainAppBar(state.tabNumber),
       body: mainBodyList[state.tabNumber],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (tabNumber) {
