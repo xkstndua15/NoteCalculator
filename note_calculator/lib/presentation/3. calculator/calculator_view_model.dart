@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_calendar/domain/use_case/calc_use_case/calculator_use_cases.dart';
 import 'package:note_calendar/presentation/3.%20calculator/event/calculator_event.dart';
 import 'package:note_calendar/presentation/3.%20calculator/state/calculator_state.dart';
+import 'package:intl/intl.dart';
 
 class CalculatorViewModel extends ChangeNotifier {
   CalculatorUseCases useCases;
@@ -44,17 +45,59 @@ class CalculatorViewModel extends ChangeNotifier {
     if (state.srcValue == null) {
       _state = state.copyWith(srcValue: number);
     } else if (state.operator == null) {
-      _state = state.copyWith(srcValue: state.srcValue! * 10 + number);
+      if (state.srcValue! > 999999999) {
+        return;
+      } else {
+        _state = state.copyWith(srcValue: state.srcValue! * 10 + number);
+      }
     } else if (state.destValue == null) {
-      _state = state.copyWith(destValue: number);
+      _state = state.copyWith(
+        destValue: number,
+        result: getResult(state.srcValue!, state.operator!, number),
+      );
     } else {
-      _state = state.copyWith(destValue: state.destValue! * 10 + number);
+      if (state.destValue! > 999999999) {
+        return;
+      } else {
+        _state = state.copyWith(
+          destValue: state.destValue! * 10 + number,
+          result: getResult(
+              state.srcValue!, state.operator!, state.destValue! * 10 + number),
+        );
+      }
     }
 
     notifyListeners();
   }
 
+  double getResult(double src, String operator, double dest) {
+    switch (operator) {
+      case '+':
+        return src + dest;
+      case '-':
+        return src - dest;
+      case 'x':
+        return src * dest;
+      case '÷':
+        return src / dest;
+      case '%':
+        return src % dest;
+    }
+
+    return 0.0;
+  }
+
   Future<void> _clickOperator(String operator) async {
+    if (state.operator == null) {
+      _state = state.copyWith(operator: operator);
+    } else {
+      if (state.destValue != null) {
+        _calculation(state.srcValue!, state.destValue!, state.operator!);
+      } else {
+        _state = state.copyWith(operator: operator);
+      }
+    }
+
     notifyListeners();
   }
 
@@ -66,10 +109,19 @@ class CalculatorViewModel extends ChangeNotifier {
         break;
       case '<':
         if (state.destValue != null) {
-          _state =
-              state.copyWith(destValue: (state.destValue! ~/ 10).toDouble());
+          if ((state.destValue! ~/ 10) == 0) {
+            _state = state.copyWith(destValue: null);
+          } else {
+            _state =
+                state.copyWith(destValue: (state.destValue! ~/ 10).toDouble());
+          }
         } else if (state.srcValue != null && state.operator == null) {
-          _state = state.copyWith(srcValue: (state.srcValue! ~/ 10).toDouble());
+          if ((state.srcValue! ~/ 10) == 0) {
+            _state = state.copyWith(srcValue: null);
+          } else {
+            _state =
+                state.copyWith(srcValue: (state.srcValue! ~/ 10).toDouble());
+          }
         }
         break;
       case '+/-':
@@ -77,5 +129,41 @@ class CalculatorViewModel extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  String returnSrc() {
+    if (state.srcValue == null) {
+      return '';
+    }
+
+    if (state.srcValue! - state.srcValue!.toInt() == 0) {
+      return NumberFormat('###,###,###,###').format(state.srcValue!.toInt());
+    } else {
+      return NumberFormat('###,###,###,###.0#').format(state.srcValue!);
+    }
+  }
+
+  String returnDest() {
+    if (state.destValue == null) {
+      return '';
+    }
+
+    if (state.destValue! - state.destValue!.toInt() == 0) {
+      return NumberFormat('###,###,###,###').format(state.destValue!.toInt());
+    } else {
+      return NumberFormat('###,###,###,###.0#').format(state.destValue!);
+    }
+  }
+
+  String returnResult() {
+    if (state.result == null) {
+      return '';
+    }
+
+    if (state.result! - state.result!.toInt() == 0) {
+      return NumberFormat('###,###,###,###').format(state.result!.toInt());
+    } else {
+      return NumberFormat('###,###,###,###0.0#').format(state.result!);
+    }
   }
 }

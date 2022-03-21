@@ -40,6 +40,8 @@ class MyApp extends StatelessWidget {
                 ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+            fixedSize: const Size(100.0, 90.0),
             primary: Colors.grey[800],
             shape: const CircleBorder(),
             elevation: 0,

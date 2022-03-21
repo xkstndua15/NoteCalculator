@@ -14,6 +14,7 @@ class CalculatorKeypad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Row(
           children: [
@@ -42,6 +43,7 @@ class CalculatorKeypad extends StatelessWidget {
               child: const Text('÷'),
             ),
           ],
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
         ),
         Row(
           children: [
@@ -70,6 +72,7 @@ class CalculatorKeypad extends StatelessWidget {
               child: const Text('x'),
             ),
           ],
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
         ),
         Row(
           children: [
@@ -98,6 +101,7 @@ class CalculatorKeypad extends StatelessWidget {
               child: const Text('-'),
             ),
           ],
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
         ),
         Row(
           children: [
@@ -126,6 +130,7 @@ class CalculatorKeypad extends StatelessWidget {
               child: const Text('+'),
             ),
           ],
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
         ),
         Row(
           children: [
@@ -152,6 +157,7 @@ class CalculatorKeypad extends StatelessWidget {
               child: const Text('='),
             ),
           ],
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
         ),
       ],
     );

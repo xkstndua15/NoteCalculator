@@ -17,6 +17,7 @@ class NotesView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
         title: const Text('노트'),
         actions: [
           IconButton(
