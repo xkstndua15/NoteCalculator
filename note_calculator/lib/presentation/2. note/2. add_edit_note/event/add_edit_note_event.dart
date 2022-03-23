@@ -11,6 +11,8 @@ abstract class AddEditNoteEvent with _$AddEditNoteEvent {
     int color,
     int fontSize,
   ) = SaveNote;
+  const factory AddEditNoteEvent.setUsedNote(int color, int fontSize) =
+      SetUsedNote;
   const factory AddEditNoteEvent.changeColor(int color) = ChangeColor;
   const factory AddEditNoteEvent.changeFontSize(int fontSize) = ChangeFontSize;
 }

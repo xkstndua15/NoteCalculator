@@ -40,7 +40,19 @@ class NotesView extends StatelessWidget {
           children: [
             ...state.notes.map(
               (note) => GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  bool isUpdate = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AddEditNoteView(
+                        note: note,
+                      ),
+                    ),
+                  );
+
+                  if (isUpdate == true) {
+                    viewModel.onEvent(const NotesEvent.loadNotes());
+                  }
+                },
                 child: NoteItem(
                   note: note,
                   onDeleteTap: () {

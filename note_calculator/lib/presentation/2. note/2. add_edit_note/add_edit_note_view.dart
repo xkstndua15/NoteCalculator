@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:note_calendar/domain/model/note/note.dart';
 import 'package:note_calendar/presentation/2.%20note/2.%20add_edit_note/add_edit_note_view_model.dart';
 import 'package:note_calendar/presentation/2.%20note/2.%20add_edit_note/event/add_edit_note_event.dart';
 import 'package:note_calendar/ui/color.dart';
 import 'package:provider/provider.dart';
 
 class AddEditNoteView extends StatefulWidget {
-  const AddEditNoteView({Key? key}) : super(key: key);
+  const AddEditNoteView({Key? key, this.note}) : super(key: key);
+  final Note? note;
 
   @override
   State<AddEditNoteView> createState() => _AddEditNoteViewState();
@@ -14,6 +16,21 @@ class AddEditNoteView extends StatefulWidget {
 class _AddEditNoteViewState extends State<AddEditNoteView> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.note != null) {
+      titleController.text = widget.note!.title;
+      contentController.text = widget.note!.content;
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        context.read<AddEditNoteViewModel>().onEvent(
+            AddEditNoteEvent.setUsedNote(
+                widget.note!.color, widget.note!.fontSize));
+      });
+    }
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -33,15 +50,13 @@ class _AddEditNoteViewState extends State<AddEditNoteView> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            viewModel.onEvent(const ChangeFontSize(14));
-            viewModel.onEvent(ChangeColor(red.value));
             if (titleController.text.isEmpty &&
                 contentController.text.isEmpty) {
               Navigator.of(context).pop(false);
             } else {
               viewModel.onEvent(
                 SaveNote(
-                  null,
+                  widget.note == null ? null : widget.note!.id,
                   titleController.text,
                   contentController.text,
                   state.color,
@@ -75,15 +90,13 @@ class _AddEditNoteViewState extends State<AddEditNoteView> {
               }),
           IconButton(
             onPressed: () {
-              viewModel.onEvent(const ChangeFontSize(14));
-              viewModel.onEvent(ChangeColor(red.value));
               if (titleController.text.isEmpty &&
                   contentController.text.isEmpty) {
                 Navigator.of(context).pop(false);
               } else {
                 viewModel.onEvent(
-                  SaveNote(
-                    null,
+                  AddEditNoteEvent.saveNote(
+                    widget.note == null ? null : widget.note!.id,
                     titleController.text,
                     contentController.text,
                     state.color,
@@ -109,7 +122,8 @@ class _AddEditNoteViewState extends State<AddEditNoteView> {
                 .map(
                   (color) => InkWell(
                     onTap: () {
-                      viewModel.onEvent(ChangeColor(color.value));
+                      viewModel
+                          .onEvent(AddEditNoteEvent.changeColor(color.value));
                     },
                     child: _buildBackgroundColor(
                         color, state.color == color.value),

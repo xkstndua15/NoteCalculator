@@ -20,6 +20,7 @@ class AddEditNoteViewModel with ChangeNotifier {
       saveNote: _saveNote,
       changeColor: _changeColor,
       changeFontSize: _changeFontSize,
+      setUsedNote: _setUsedNote,
     );
   }
 
@@ -75,5 +76,9 @@ class AddEditNoteViewModel with ChangeNotifier {
   void changeEditMode() {
     _state = state.copyWith(editMode: !_state.editMode);
     notifyListeners();
+  }
+
+  void _setUsedNote(int color, int fontSize) {
+    _state = state.copyWith(color: color, fontSize: fontSize);
   }
 }
