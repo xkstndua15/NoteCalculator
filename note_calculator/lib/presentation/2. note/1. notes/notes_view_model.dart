@@ -3,7 +3,6 @@ import 'package:note_calendar/domain/model/note/note.dart';
 import 'package:note_calendar/domain/use_case/note_use_case/note_use_cases.dart';
 import 'package:note_calendar/presentation/2.%20note/1.%20notes/event/notes_event.dart';
 import 'package:note_calendar/presentation/2.%20note/1.%20notes/state/notes_state.dart';
-import 'package:note_calendar/presentation/2.%20note/2.%20add_edit_note/add_edit_note_view.dart';
 
 class NotesViewModel with ChangeNotifier {
   final NoteUseCases useCases;

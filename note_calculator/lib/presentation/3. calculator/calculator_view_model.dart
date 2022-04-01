@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_calendar/domain/model/calculator/calculator.dart';
 import 'package:note_calendar/domain/use_case/calc_use_case/calculator_use_cases.dart';
 import 'package:note_calendar/presentation/3.%20calculator/event/calculator_event.dart';
 import 'package:note_calendar/presentation/3.%20calculator/state/calculator_state.dart';
@@ -30,7 +31,18 @@ class CalculatorViewModel extends ChangeNotifier {
     );
   }
 
-  Future<void> _calculation(double src, double dest, String operator) async {
+  Future<void> _calculation(double src, double? dest, String? operator) async {
+    if (dest != null && operator != null) {
+      _state = state.copyWith(result: getResult(src, operator, dest));
+      await useCases.saveResultUseCase(Calculator(
+          srcValue: src,
+          destValue: dest,
+          operator: operator,
+          result: state.result!));
+
+      _getResultsList();
+    }
+
     notifyListeners();
   }
 
@@ -125,6 +137,11 @@ class CalculatorViewModel extends ChangeNotifier {
         }
         break;
       case '+/-':
+        break;
+      case '=':
+        if (state.srcValue != null) {
+          _calculation(state.srcValue!, state.destValue, state.operator);
+        }
         break;
     }
 

@@ -27,7 +27,10 @@ class _CalculatorViewState extends State<CalculatorView> {
         title: const Text('계산기'),
         actions: [
           IconButton(
-            onPressed: () => scaffoldKey.currentState!.openEndDrawer(),
+            onPressed: () {
+              scaffoldKey.currentState!.openEndDrawer();
+              viewModel.onEvent(const CalculatorEvent.getResultList());
+            },
             icon: const Icon(
               Icons.history,
             ),
@@ -83,19 +86,20 @@ class _CalculatorViewState extends State<CalculatorView> {
           Expanded(
             child: CalculatorKeypad(
               onPressedNumber: (number) {
-                viewModel.onEvent(ClickNumber(number.toDouble()));
+                viewModel
+                    .onEvent(CalculatorEvent.clickNumber(number.toDouble()));
               },
               onPressedOperator: (operator) {
-                viewModel.onEvent(ClickOperator(operator));
+                viewModel.onEvent(CalculatorEvent.clickOperator(operator));
               },
               onPressedString: (string) {
-                viewModel.onEvent(ClickString(string));
+                viewModel.onEvent(CalculatorEvent.clickString(string));
               },
             ),
           ),
         ],
       ),
-      endDrawer: drawer(context),
+      endDrawer: drawer(viewModel.state.resultList),
     );
   }
 }
