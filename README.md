@@ -1,3 +1,4 @@
+![ic_launcher](https://user-images.githubusercontent.com/35282755/161456763-63a95183-68d2-4713-9205-574f88d16158.png)
 # NoteCalculator
 메모 &amp; 계산기 App
 
@@ -10,3 +11,4 @@
 
 노트는 Firebase와 연동하여 동기화 기능, 메모 색, 제목, 수정 날짜 별로 정렬하는 기능을 추가할 예정입니다.
 계산기는 단위 계산 기능 정도를 추가할 예정입니다.
+
